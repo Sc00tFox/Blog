@@ -1,0 +1,1 @@
+<div class="search-none"><?=SEARCH_NOTHING;?></div>

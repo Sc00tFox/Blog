@@ -1,0 +1,1 @@
+The directory under the photo, audio or video
