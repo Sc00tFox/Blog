@@ -1,6 +1,10 @@
 # Blog
 Simple Lightweight No Database Blog Engine with Markdown
 
+# Requirements:
+- Web-Server: Apache
+- PHP: 7.4+
+
 # Used Libs or Technologies:
 
 ## PHP Markdown Lib Copyright (c) 2004-2022 
