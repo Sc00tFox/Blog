@@ -4,11 +4,11 @@
     include_once($_SERVER['DOCUMENT_ROOT'] . "/config/config.php");
     include_once($_SERVER['DOCUMENT_ROOT'] . "/system/modules/posts.php");
     include_once($_SERVER['DOCUMENT_ROOT'] . "/system/modules/location.php");
-    include_once($_SERVER['DOCUMENT_ROOT'] . "/system/modules/Michelf/Markdown.inc.php");
+    include_once($_SERVER['DOCUMENT_ROOT'] . "/system/modules/Michelf/MarkdownExtra.inc.php");
 
-    use Michelf\Markdown;
+    use Michelf\MarkdownExtra;
 
-    $md = new Markdown();
+    $md = new MarkdownExtra();
     $posts = new Posts();
     $PostCollector = new PostsCollector();
 
@@ -59,6 +59,11 @@
         <meta name="description" content="<?=BLOG_DESCRIPTION;?>">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <?php require_once($_SERVER['DOCUMENT_ROOT'] . "/system/modules/page_parts/head.php");?>
+        <?php if (BLOG_USE_HTTPS == true):?>
+            <script defer src="https://<?=$_SERVER['SERVER_NAME'];?>/system/assets/js/main.js"></script>
+        <?php else:?>
+            <script defer src="http://<?=$_SERVER['SERVER_NAME'];?>/system/assets/js/main.js"></script>
+        <?php endif;?>
         <title><?=BLOG_NAME;?></title>
     </head>
     <body>
