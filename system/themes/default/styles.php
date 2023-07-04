@@ -51,7 +51,7 @@
     }
 
     li {
-        line-height: 0.5em;
+        line-height: 1.2em;
     }
 
     p {
