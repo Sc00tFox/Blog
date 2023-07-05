@@ -1,0 +1,8 @@
+User-agent: *
+
+Crawl-delay: 10
+
+Disallow: /system/
+Disallow: /config/
+
+Allow: /posts/

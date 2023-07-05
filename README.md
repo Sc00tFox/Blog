@@ -3,7 +3,18 @@ Simple Lightweight No Database Blog Engine with Markdown
 
 # Requirements:
 - Web-Server: Apache
+- Apache Module: mod_rewrite
 - PHP: 7.4+
+
+# How to Install:
+1. Download and unzip the ZIP archive from the repository releases into a separate directory of your web server.
+2. Open the address in the browser that corresponds to the directory where you unpacked the files.
+3. Enjoy!
+
+# How to Update:
+1. Remove the files: `.htaccess`, `index.php`, `page.php`, `post.php`, `search.php`
+2. Delete the directory `/system/` (If you are using your own themes in the `/system/themes/` directory, you should save them beforehand)
+3. Replace the deleted files and the `/system/` directory with new ones.
 
 # Used Libs or Technologies:
 
