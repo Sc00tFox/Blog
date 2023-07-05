@@ -16,6 +16,9 @@ Simple Lightweight No Database Blog Engine with Markdown
 2. Delete the directory `/system/` (If you are using your own themes in the `/system/themes/` directory, you should save them beforehand)
 3. Replace the deleted files and the `/system/` directory with new ones.
 
+# How to Create New Post and Markdown Tags, etc.
+[Wiki](https://github.com/Sc00tFox/Blog/wiki)
+
 # Used Libs or Technologies:
 
 ## PHP Markdown Lib Copyright (c) 2004-2022 
