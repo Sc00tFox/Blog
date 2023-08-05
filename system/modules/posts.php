@@ -54,9 +54,9 @@
         public function preparePosts($array) {
             $mode = NULL;
     
-            if (count($array) > POST_MAX_POST_PER_PAGE) {
+            if (count($array) > MAX_POSTS_PER_PAGE) {
                 $array = array_reverse($array);
-                $pages_array = array_chunk($array, POST_MAX_POST_PER_PAGE);
+                $pages_array = array_chunk($array, MAX_POSTS_PER_PAGE);
     
                 $mode = "multiple";
     
@@ -121,8 +121,8 @@
             $sliceIndex = NULL;
 
             foreach ($array as $index => $row) {
-                if (POST_PREVEW_ROW_LIMIT >= 0 && count($array) > POST_PREVEW_ROW_LIMIT) {
-                    if ($index > POST_PREVEW_ROW_LIMIT) {
+                if (PREVIEW_ROWS_LIMIT >= 0 && count($array) > PREVIEW_ROWS_LIMIT) {
+                    if ($index > PREVIEW_ROWS_LIMIT) {
                         $sliceIndex = $index;
                         break;
                     }
@@ -185,7 +185,7 @@
             array_push($resultArray, $resultBuffer);
 
             if ($sliceIndex != NULL) {
-                array_push($resultArray, "<a href=\"/post?url=$postUrl\" draggable=\"false\">" . POST_PRIVEW_READMORE_TITLE . "</a>");
+                array_push($resultArray, "<a href=\"/post?url=$postUrl\" draggable=\"false\">" . POST_PREVIEW_READMORE_TITLE . "</a>");
             }
             return $resultArray;
         }

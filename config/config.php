@@ -54,16 +54,16 @@
     define("PARAGRAPH_REDLINE", "0");
 
     // The maximum number of posts displayed on one page in the feed
-    define("POST_MAX_POST_PER_PAGE", 10);
+    define("MAX_POSTS_PER_PAGE", 10);
 
     // The maximum number of post lines displayed in the feed
-    define("POST_PREVEW_ROW_LIMIT", 5);
+    define("PREVIEW_ROWS_LIMIT", 5);
 
     // Message about the absence of posts
     define("POST_NONE", "None");
 
     // The text of the link to continue viewing the post in the feed
-    define("POST_PRIVEW_READMORE_TITLE", ">>>read more.");
+    define("POST_PREVIEW_READMORE_TITLE", ">>>read more.");
 
     // Search page title
     define("SEARCH_PAGE_TITLE", "Search");
