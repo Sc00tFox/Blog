@@ -121,8 +121,8 @@
             $sliceIndex = NULL;
 
             foreach ($array as $index => $row) {
-                if (POST_PRIVEW_LINES_LIMIT > 0 && count($array) > POST_PRIVEW_LINES_LIMIT) {
-                    if ($index > POST_PRIVEW_LINES_LIMIT) {
+                if (POST_PREVEW_ROW_LIMIT >= 0 && count($array) > POST_PREVEW_ROW_LIMIT) {
+                    if ($index > POST_PREVEW_ROW_LIMIT) {
                         $sliceIndex = $index;
                         break;
                     }

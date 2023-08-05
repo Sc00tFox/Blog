@@ -57,7 +57,7 @@
     define("POST_MAX_POST_PER_PAGE", 10);
 
     // The maximum number of post lines displayed in the feed
-    define("POST_PRIVEW_LINES_LIMIT", 5);
+    define("POST_PREVEW_ROW_LIMIT", 5);
 
     // Message about the absence of posts
     define("POST_NONE", "None");
