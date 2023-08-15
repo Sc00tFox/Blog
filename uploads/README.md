@@ -1,1 +1,1 @@
-The directory under the photo, audio or video
+The directory where you put your posts or attachments, like photos, videos and audio files
