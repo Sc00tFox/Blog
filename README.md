@@ -15,7 +15,7 @@ Simple Lightweight No Database Blog Engine with Markdown
 1. Remove the files: `.htaccess`, `index.php`, `page.php`, `post.php`, `search.php`
 2. Delete the directory `/system/` (If you are using your own themes in the `/system/themes/` directory, you should save them beforehand)
 3. Replace the deleted files and the `/system/` directory with new ones.
-4. Replace /config/default_config.php with a new one.
+4. Replace `/config/default_config.php` with a new one.
 
 # How to Create New Post and Markdown Tags, etc.
 [Wiki](https://github.com/Sc00tFox/Blog/wiki)
