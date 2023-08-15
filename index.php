@@ -1,6 +1,4 @@
-<?php 
-    ini_set('display_errors', 1);
-    
+<?php
     date_default_timezone_set(date_default_timezone_get());
 
     include_once($_SERVER["DOCUMENT_ROOT"] . "/system/modules/configuration.php");
