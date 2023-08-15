@@ -1,7 +1,7 @@
 <style type="text/css">
     @font-face {
         font-family: 'Hermes';
-        <?php if (BLOG_USE_HTTPS == true):?>
+        <?php if (getConfigByConstant("BLOG_USE_HTTPS") == true):?>
             src: url('https://<?=$_SERVER['SERVER_NAME'];?>/system/themes/default/fonts/hermes.ttf');
         <?php else:?>
             src: url('http://<?=$_SERVER['SERVER_NAME'];?>/system/themes/default/fonts/hermes.ttf');
@@ -10,7 +10,7 @@
 
     @font-face {
         font-family: 'OpenSans';
-        <?php if (BLOG_USE_HTTPS == true):?>
+        <?php if (getConfigByConstant("BLOG_USE_HTTPS") == true):?>
             src: url('https://<?=$_SERVER['SERVER_NAME'];?>/system/themes/default/fonts/open-sans.ttf');
         <?php else:?>
             src: url('http://<?=$_SERVER['SERVER_NAME'];?>/system/themes/default/fonts/open-sans.ttf');
@@ -19,7 +19,7 @@
 
     @font-face {
         font-family: 'Futuris';
-        <?php if (BLOG_USE_HTTPS == true):?>
+        <?php if (getConfigByConstant("BLOG_USE_HTTPS") == true):?>
             src: url('https://<?=$_SERVER['SERVER_NAME'];?>/system/themes/default/fonts/futuris-cyrillic.ttf');
         <?php else:?>
             src: url('http://<?=$_SERVER['SERVER_NAME'];?>/system/themes/default/fonts/futuris-cyrillic.ttf');
@@ -55,7 +55,7 @@
     }
 
     p {
-        text-indent: <?php echo PARAGRAPH_REDLINE;?>;
+        text-indent: <?php echo getConfigByConstant("PARAGRAPH_REDLINE");?>;
         margin-top: 1.2em;
         margin-bottom: 1.2em;
     }
@@ -190,7 +190,7 @@
         margin-bottom: 1.2em;
         border-collapse: collapse;
 
-        <?php if (POST_WIDTH_TABLE_STRETCH == true):?>
+        <?php if (getConfigByConstant("POST_WIDTH_TABLE_STRETCH") == true):?>
             width: 100%;
         <?php endif;?>
     }
@@ -348,7 +348,7 @@
         cursor: pointer;
 
         font-family: "Hermes";
-        font-size: <?php echo BLOG_TITLE_FONT_SIZE;?>;
+        font-size: <?php echo getConfigByConstant("BLOG_TITLE_FONT_SIZE");?>;
 
         color: #FFFFFF;
     }
@@ -365,7 +365,7 @@
         text-align: left;
 
         font-family: "Hermes";
-        font-size: <?php echo BLOG_SUBTITLE_FONT_SIZE;?>;
+        font-size: <?php echo getConfigByConstant("BLOG_SUBTITLE_FONT_SIZE");?>;
 
         color: rgb(138, 138, 138);
     }
@@ -379,7 +379,7 @@
     }
 
     .post-body {
-        width: <?php echo POST_BODY_WIDTH;?>;
+        width: <?php echo getConfigByConstant("POST_BODY_WIDTH");?>;
         margin-bottom: 5%;
     }
 
@@ -388,7 +388,7 @@
         border-bottom: 1px solid #ffffff62;
 
         font-family: "Hermes";
-        font-size: <?php echo POST_TITLE_FONT_SIZE;?>;
+        font-size: <?php echo getConfigByConstant("POST_TITLE_FONT_SIZE");?>;
 
         cursor: pointer;
     }
@@ -402,7 +402,7 @@
         color: #FFFFFF;
 
         font-family: "Hermes";
-        font-size: <?php echo POST_TITLE_FONT_SIZE;?>;
+        font-size: <?php echo getConfigByConstant("POST_TITLE_FONT_SIZE");?>;
     }
 
     .post-text {
@@ -413,21 +413,21 @@
         margin-right: 5%;
 
         font-family: "OpenSans";
-        font-size: <?php echo POST_TEXT_FONT_SIZE;?>;
+        font-size: <?php echo getConfigByConstant("POST_TEXT_FONT_SIZE");?>;
     }
 
     .post-date {
         color: #848484;
 
         font-family: "Futuris";
-        font-size: <?php echo POST_DATE_FONT_SIZE;?>;
+        font-size: <?php echo getConfigByConstant("POST_DATE_FONT_SIZE");?>;
     }
 
     .page-error {
         color: #FFFFFF;
 
         font-family: "Futuris";
-        font-size: <?php echo ERROR_PAGE_FONT_SIZE;?>;
+        font-size: <?php echo getConfigByConstant("ERROR_PAGE_FONT_SIZE");?>;
     }
 
     .search-panel-background {
@@ -491,7 +491,7 @@
         justify-content: center;
 
         font-family: "Futuris";
-        font-size: <?php echo ERROR_PAGE_FONT_SIZE;?>;
+        font-size: <?php echo getConfigByConstant("ERROR_PAGE_FONT_SIZE");?>;
 
         margin-top: 25px;
     }

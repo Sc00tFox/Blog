@@ -1,1 +1,1 @@
-<div class="search-none"><?=SEARCH_NOTHING;?></div>
+<div class="search-none"><?=getConfigByConstant("SEARCH_NOTHING");?></div>

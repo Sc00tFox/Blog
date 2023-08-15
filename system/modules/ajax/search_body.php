@@ -10,9 +10,9 @@
 ?>
 <?php if ($postsMode == "multiple"):?>
     <?php if ($previousPageNumber == 1):?>
-        <div class="page-navigation-button"><a href="/search?q=<?=urlencode($search_value);?>"><?=PREVIOUS_PAGE;?></a></div>
+        <div class="page-navigation-button"><a href="/search?q=<?=urlencode($search_value);?>"><?=getConfigByConstant("PREVIOUS_PAGE");?></a></div>
     <?php elseif ($previousPageNumber > 1):?>
-        <div class="page-navigation-button"><a href="/search?q=<?=urlencode($search_value);?>&n=<?=$previousPageNumber;?>"><?=PREVIOUS_PAGE;?></a></div>
+        <div class="page-navigation-button"><a href="/search?q=<?=urlencode($search_value);?>&n=<?=$previousPageNumber;?>"><?=getConfigByConstant("PREVIOUS_PAGE");?></a></div>
     <?php endif;?>
 <?php endif;?>
 <div class="posts-background">
@@ -68,6 +68,6 @@
 </div>
 <?php if ($postsMode == "multiple"):?>
     <?php if ($nextPageNumber <= count($postsList)):?>
-        <div class="page-navigation-button"><a href="/search?q=<?=urlencode($search_value);?>&n=<?=$nextPageNumber;?>"><?=NEXT_PAGE;?></a></div>
+        <div class="page-navigation-button"><a href="/search?q=<?=urlencode($search_value);?>&n=<?=$nextPageNumber;?>"><?=getConfigByConstant("NEXT_PAGE");?></a></div>
     <?php endif;?>
 <?php endif;?>

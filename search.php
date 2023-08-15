@@ -1,7 +1,7 @@
 <?php
     date_default_timezone_set(date_default_timezone_get());
 
-    include_once($_SERVER['DOCUMENT_ROOT'] . "/config/config.php");
+    include_once($_SERVER["DOCUMENT_ROOT"] . "/system/modules/configuration.php");
 
     $searchQuery = NULL;
     $searchPage = 1;
@@ -19,22 +19,22 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <meta name="description" content="<?=BLOG_DESCRIPTION;?>">
+        <meta name="description" content="<?=getConfigByConstant("BLOG_DESCRIPTION");?>">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <?php require_once($_SERVER['DOCUMENT_ROOT'] . "/system/modules/page_parts/head.php");?>
         <script src="/system/assets/js/jquery-3.6.0-min.js"></script>
         <?php if ($searchQuery != NULL):?>
-            <title><?=BLOG_NAME;?> – <?=SEARCH_PAGE_TITLE;?>: <?=$searchQuery;?></title>
+            <title><?=getConfigByConstant("BLOG_NAME");?> – <?=getConfigByConstant("SEARCH_PAGE_TITLE");?>: <?=$searchQuery;?></title>
         <?php else:?>
-            <title><?=BLOG_NAME;?> – <?=SEARCH_PAGE_TITLE;?></title>
+            <title><?=getConfigByConstant("BLOG_NAME");?> – <?=getConfigByConstant("SEARCH_PAGE_TITLE");?></title>
         <?php endif;?>
     </head>
     <body>
-        <?php include_once($_SERVER['DOCUMENT_ROOT'] . "/system/themes/" . BLOG_THEME . "/styles.php");?>
+        <?php include_once($_SERVER['DOCUMENT_ROOT'] . "/system/themes/" . getConfigByConstant("BLOG_THEME") . "/styles.php");?>
         <?php require_once($_SERVER['DOCUMENT_ROOT'] . "/system/modules/page_parts/header.php");?>
         <div class="search-panel-background">
             <div id="search-field" class="area-field" contentEditable="true"><?=$searchQuery;?></div>
-            <button class="search-button" onclick="search()"><?=SEARCH_BUTTON_VALUE;?></button>
+            <button class="search-button" onclick="search()"><?=getConfigByConstant("SEARCH_BUTTON_VALUE");?></button>
         </div>
         <div class="search-panel">
             <div id="search-item"></div>
@@ -53,7 +53,7 @@
                 let search_value = $('#search-field').text();
 
                 if (search_value.length <= 0) {
-                    alert('<?=SEARCH_EMPTY_VALUE;?>');
+                    alert('<?=getConfigByConstant("SEARCH_EMPTY_VALUE");?>');
                     return;
                 }
 

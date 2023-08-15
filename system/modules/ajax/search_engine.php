@@ -1,7 +1,7 @@
 <?php
     date_default_timezone_set(date_default_timezone_get());
 
-    include_once($_SERVER["DOCUMENT_ROOT"] . "/config/config.php");
+    include_once($_SERVER["DOCUMENT_ROOT"] . "/system/modules/configuration.php");
     include_once($_SERVER["DOCUMENT_ROOT"] . "/system/modules/posts.php");
     include_once($_SERVER['DOCUMENT_ROOT'] . "/system/modules/Michelf/MarkdownExtra.inc.php");
 
