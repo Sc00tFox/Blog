@@ -27,6 +27,11 @@ Simple Lightweight No Database Blog Engine with Markdown
 Based on Markdown Copyright (c) 2003-2005 
 - Author: John Gruber https://daringfireball.net All rights reserved.
 
+## Mobile Detect Library
+- Author: Serban Ghita, Nick Ilyin
+- Original author: Victor Stanciu
+- GitHub: https://github.com/serbanghita/Mobile-Detect
+
 ## UI-Components (code-highlighting) MIT License Copyright (c) 2018 
 - Author: Alexander Maltsev https://itchief.ru/
 
