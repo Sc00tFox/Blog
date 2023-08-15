@@ -9,7 +9,13 @@ Simple Lightweight No Database Blog Engine with Markdown
 # How to Install:
 1. Download and unzip the ZIP archive from the repository releases into a separate directory of your web server.
 2. Open the address in the browser that corresponds to the directory where you unpacked the files.
-3. Enjoy!
+3. Create a symbolic link in your home directory to the `/uploads` directory in your web server directory where blog files are located.
+4. Set permissions to `0777` for the /uploads directory.
+5. In the `/bin/blog_post.sh` file, specify the username and group under which your web server runs in the `U_WEBS` and `G_WEBS` variables, respectively. Also, provide the absolute path to the root directory of your blog on your web server in the D_BLOG variable, for example: `D_BLOG="/var/www/my_blog"`.
+6. Set execute permissions for the script using `chmod +x /var/www/my_blog/bin/blog_post.sh`.
+7. Add the script to the cron table to run it as root or another user with write permissions to the web server directory.  
+Example crontab entry: `*/5 *   * * *   root    /var/www/my_blog/bin/blog_post.sh >/dev/null 2>&1`
+8. Enjoy!
 
 # How to Use Dual Configuration:
 When you first download the distribution, there are two configuration files in the `/config` directory.  
