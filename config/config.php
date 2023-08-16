@@ -57,7 +57,7 @@
     define("MAX_POSTS_PER_PAGE", 10);
 
     // The maximum number of post lines displayed in the feed
-    define("PREVIEW_ROWS_LIMIT", 5);
+    define("PREVIEW_ROWS_LIMIT", 3);
 
     // Message about the absence of posts
     define("POST_NONE", "None");
@@ -91,4 +91,7 @@
 
     // The text of the link to go to the next page of the feed
     define("NEXT_PAGE", "Next page");
+
+    // The pinned text center align?
+    define("ALIGN_CENTER_PINNED_TEXT", true);
 ?>

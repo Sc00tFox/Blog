@@ -16,6 +16,13 @@
 
     $postsMode = $postsList[0];
     unset($postsList[0]);
+
+    $pinned = "./pinned/pinned.md";
+    $hasPinnedPost = false;
+    
+    if (file_exists($pinned)) {
+        $hasPinnedPost = true;
+    }
 ?>
 <!doctype html>
 <html>
@@ -34,6 +41,17 @@
     <body>
         <?php include_once($_SERVER['DOCUMENT_ROOT'] . "/system/themes/" . getConfigByConstant("BLOG_THEME") . "/styles.php");?>
         <?php require_once($_SERVER['DOCUMENT_ROOT'] . "/system/modules/page_parts/header.php");?>
+        <?php if ($hasPinnedPost):?>
+            <div class="pinned-background">
+                <?php 
+                    $pinnedArray = $posts->readPost($pinned);
+                    $pinnedText = $posts->getPinnedText($md, $pinnedArray);
+                    unset($pinnedArray);
+                    unset($hasPinnedPost);
+                ?>
+                <div class="pinned-text"><?=$pinnedText;?></div>
+            </div>
+        <?php endif;?>
         <div class="posts-background">
             <?php if (count($postsList) < 1):?>
                 <h1><?=getConfigByConstant("POST_NONE");?></h1>

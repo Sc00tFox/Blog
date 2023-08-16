@@ -266,6 +266,30 @@
         overflow-x: hidden;
     }
 
+    .pinned-background {
+        display: flex;
+        margin-top: 5%;
+        margin-left: 10%;
+        margin-bottom: 5%;
+
+        <?php if (getConfigByConstant("ALIGN_CENTER_PINNED_TEXT") == true):?>
+            justify-content: center;
+        <?php endif;?>
+
+        height: auto;
+        overflow-x: hidden;
+    }
+
+    .pinned-text {
+        color: #848484;
+        
+        margin-top: -1em;
+        margin-right: 5%;
+
+        font-family: "OpenSans";
+        font-size: <?php echo getConfigByConstant("POST_TEXT_FONT_SIZE");?>;
+    }
+
     .page-navigation-button {
         margin-left: 10%;
         margin-top: 5%;

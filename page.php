@@ -51,6 +51,13 @@
 
     $previousPageNumber = $pageNumber - 1;
     $nextPageNumber = $pageNumber + 1;
+
+    $pinned = "./pinned/pinned.md";
+    $hasPinnedPost = false;
+    
+    if (file_exists($pinned)) {
+        $hasPinnedPost = true;
+    }
 ?>
 <!doctype html>
 <html>
@@ -73,6 +80,17 @@
             <div class="page-navigation-button"><a href="/"><?=getConfigByConstant("PREVIOUS_PAGE");?></a></div>
         <?php else:?>
             <div class="page-navigation-button"><a href="/page?n=<?=$previousPageNumber;?>"><?=getConfigByConstant("PREVIOUS_PAGE");?></a></div>
+        <?php endif;?>
+        <?php if ($hasPinnedPost):?>
+            <div class="pinned-background">
+                <?php 
+                    $pinnedArray = $posts->readPost($pinned);
+                    $pinnedText = $posts->getPinnedText($md, $pinnedArray);
+                    unset($pinnedArray);
+                    unset($hasPinnedPost);
+                ?>
+                <div class="pinned-text"><?=$pinnedText;?></div>
+            </div>
         <?php endif;?>
         <div class="posts-background">
             <?php if (count($postsList) < 1):?>
