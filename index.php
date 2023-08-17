@@ -17,7 +17,7 @@
     $postsMode = $postsList[0];
     unset($postsList[0]);
 
-    $pinned = "./pinned/pinned.md";
+    $pinned = "./pinned.md";
     $hasPinnedPost = false;
     
     if (file_exists($pinned)) {

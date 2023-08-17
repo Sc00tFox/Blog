@@ -52,7 +52,7 @@
     $previousPageNumber = $pageNumber - 1;
     $nextPageNumber = $pageNumber + 1;
 
-    $pinned = "./pinned/pinned.md";
+    $pinned = "./pinned.md";
     $hasPinnedPost = false;
     
     if (file_exists($pinned)) {
