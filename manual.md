@@ -12,6 +12,13 @@ All posts by default are located in the /posts/ directory of your website's serv
 
 The `.md` extension at the end of the file is mandatory; otherwise, the engine will not recognize the post. If you need to hide a post, you can change the extension to any other or completely remove it.
 
+# Create pinned post
+
+To create a pinned post, you simply need to create a file named pinned.md in the root directory of the blog.  
+A pinned post does not have a title or publication date, and is displayed in its entirety on the page.  
+Unlike regular posts, each line in the file is used as the body of the post, and the first line is not reserved for anything.  
+Pinned posts, just like regular posts, support Markdown formatting.
+
 # Markdown Tags
 
 The engine uses Markdown markup to format text for posts on web pages. Standardized commonly used Markdown tags are used, but there may be minor changes. Examples of popular and commonly used tags are presented below.
