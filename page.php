@@ -1,7 +1,7 @@
 <?php
     date_default_timezone_set(date_default_timezone_get());
 
-    include_once($_SERVER['DOCUMENT_ROOT'] . "/config/config.php");
+    include_once($_SERVER["DOCUMENT_ROOT"] . "/system/modules/configuration.php");
     include_once($_SERVER['DOCUMENT_ROOT'] . "/system/modules/posts.php");
     include_once($_SERVER['DOCUMENT_ROOT'] . "/system/modules/location.php");
     include_once($_SERVER['DOCUMENT_ROOT'] . "/system/modules/Michelf/MarkdownExtra.inc.php");
@@ -51,28 +51,46 @@
 
     $previousPageNumber = $pageNumber - 1;
     $nextPageNumber = $pageNumber + 1;
+
+    $pinned = "./pinned.md";
+    $hasPinnedPost = false;
+    
+    if (file_exists($pinned)) {
+        $hasPinnedPost = true;
+    }
 ?>
 <!doctype html>
 <html>
     <head>
         <meta charset="UTF-8">
-        <meta name="description" content="<?=BLOG_DESCRIPTION;?>">
+        <meta name="description" content="<?=getConfigByConstant("BLOG_DESCRIPTION");?>">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <?php require_once($_SERVER['DOCUMENT_ROOT'] . "/system/modules/page_parts/head.php");?>
-        <?php if (BLOG_USE_HTTPS == true):?>
+        <?php if (getConfigByConstant("BLOG_USE_HTTPS") == true):?>
             <script defer src="https://<?=$_SERVER['SERVER_NAME'];?>/system/assets/js/main.js"></script>
         <?php else:?>
             <script defer src="http://<?=$_SERVER['SERVER_NAME'];?>/system/assets/js/main.js"></script>
         <?php endif;?>
-        <title><?=BLOG_NAME;?></title>
+        <title><?=getConfigByConstant("BLOG_NAME");?></title>
     </head>
     <body>
-        <?php include_once($_SERVER['DOCUMENT_ROOT'] . "/system/themes/" . BLOG_THEME . "/styles.php");?>
+        <?php include_once($_SERVER['DOCUMENT_ROOT'] . "/system/themes/" . getConfigByConstant("BLOG_THEME") . "/styles.php");?>
         <?php require_once($_SERVER['DOCUMENT_ROOT'] . "/system/modules/page_parts/header.php");?>
         <?php if ($previousPageNumber <= 1):?>
-            <div class="page-navigation-button"><a href="/"><?=PREVIOUS_PAGE;?></a></div>
+            <div class="page-navigation-button"><a href="/"><?=getConfigByConstant("PREVIOUS_PAGE");?></a></div>
         <?php else:?>
-            <div class="page-navigation-button"><a href="/page?n=<?=$previousPageNumber;?>"><?=PREVIOUS_PAGE;?></a></div>
+            <div class="page-navigation-button"><a href="/page?n=<?=$previousPageNumber;?>"><?=getConfigByConstant("PREVIOUS_PAGE");?></a></div>
+        <?php endif;?>
+        <?php if ($hasPinnedPost):?>
+            <div class="pinned-background">
+                <?php 
+                    $pinnedArray = $posts->readPost($pinned);
+                    $pinnedText = $posts->getPinnedText($md, $pinnedArray);
+                    unset($pinnedArray);
+                    unset($hasPinnedPost);
+                ?>
+                <div class="pinned-text"><?=$pinnedText;?></div>
+            </div>
         <?php endif;?>
         <div class="posts-background">
             <?php if (count($postsList) < 1):?>
@@ -102,7 +120,7 @@
             <?php endif;?>
         </div>
         <?php if ($nextPageNumber <= count($postsList)):?>
-            <div class="page-navigation-button"><a href="/page?n=<?=$nextPageNumber;?>"><?=NEXT_PAGE;?></a></div>
+            <div class="page-navigation-button"><a href="/page?n=<?=$nextPageNumber;?>"><?=getConfigByConstant("NEXT_PAGE");?></a></div>
         <?php endif;?>
         <?php require_once($_SERVER['DOCUMENT_ROOT'] . "/system/modules/page_parts/footer.php");?>
     </body>

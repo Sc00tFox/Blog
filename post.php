@@ -1,7 +1,7 @@
 <?php
     date_default_timezone_set(date_default_timezone_get());
 
-    include_once($_SERVER['DOCUMENT_ROOT'] . "/config/config.php");
+    include_once($_SERVER["DOCUMENT_ROOT"] . "/system/modules/configuration.php");
     include_once($_SERVER['DOCUMENT_ROOT'] . "/system/modules/posts.php");
     include_once($_SERVER['DOCUMENT_ROOT'] . "/system/modules/Michelf/MarkdownExtra.inc.php");
 
@@ -14,15 +14,21 @@
     $post = $postUrl;
     $postUrl = $_SERVER['DOCUMENT_ROOT'] . "/posts/" . $postUrl . ".md";
     $postArray = $posts->readPost($postUrl);
+
+    $postLen = count($postArray);
+    $postDescription = array_slice($postArray, floor($postLen * (20 / 100)));
+
+    unset($postLen);
 ?>
 <!doctype html>
 <html>
     <head>
         <meta charset="UTF-8">
-        <meta name="description" content="<?=BLOG_DESCRIPTION;?>">
+        <meta name="description" content="<?=htmlspecialchars(stripslashes(strip_tags(trim($posts->getPostFullText($md, $postDescription)))));?>">
+        <?php unset($postDescription);?>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <?php require_once($_SERVER['DOCUMENT_ROOT'] . "/system/modules/page_parts/head.php");?>
-        <?php if (BLOG_USE_HTTPS == true):?>
+        <?php if (getConfigByConstant("BLOG_USE_HTTPS") == true):?>
             <script defer src="https://<?=$_SERVER['SERVER_NAME'];?>/system/assets/js/main.js"></script>
         <?php else:?>
             <script defer src="http://<?=$_SERVER['SERVER_NAME'];?>/system/assets/js/main.js"></script>
@@ -30,7 +36,7 @@
         <title><?=$posts->getPostTitle($postArray);?></title>
     </head>
     <body>
-        <?php include_once($_SERVER['DOCUMENT_ROOT'] . "/system/themes/" . BLOG_THEME . "/styles.php");?>
+        <?php include_once($_SERVER['DOCUMENT_ROOT'] . "/system/themes/" . getConfigByConstant("BLOG_THEME") . "/styles.php");?>
         <?php require_once($_SERVER['DOCUMENT_ROOT'] . "/system/modules/page_parts/header.php");?>
         <div class="posts-background">
             <div class="post-body">
@@ -39,7 +45,7 @@
                     <div class="post-text"><?=$posts->getPostFullText($md, $postArray);?></div>
                     <span class="post-date"><?=$posts->getPostDate($post);?></span>
                 <?php else:?>
-                    <div class="page-error"><?=POST_NOT_FOUND;?></div>
+                    <div class="page-error"><?=getConfigByConstant("POST_NOT_FOUND");?></div>
                 <?php endif;?>
             </div>
             <?php 
