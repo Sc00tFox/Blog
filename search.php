@@ -19,7 +19,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <meta name="description" content="<?=getConfigByConstant("BLOG_DESCRIPTION");?>">
+        <meta name="description" content="<?=getConfigByConstant("BLOG_DESCRIPTION");?> | <?=getConfigByConstant("SEARCH_PAGE_TITLE");?>">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <?php require_once($_SERVER['DOCUMENT_ROOT'] . "/system/modules/page_parts/head.php");?>
         <script src="/system/assets/js/jquery-3.6.0-min.js"></script>
