@@ -122,7 +122,7 @@
 
             foreach ($array as $index => $row) {
                 if (getConfigByConstant("PREVIEW_ROWS_LIMIT") >= 0 && count($array) > getConfigByConstant("PREVIEW_ROWS_LIMIT")) {
-                    if ($index > PREVIEW_ROWS_LIMIT) {
+                    if ($index >= getConfigByConstant("PREVIEW_ROWS_LIMIT")) {
                         $sliceIndex = $index;
                         break;
                     }
