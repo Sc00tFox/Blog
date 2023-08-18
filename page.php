@@ -76,11 +76,6 @@
     <body>
         <?php include_once($_SERVER['DOCUMENT_ROOT'] . "/system/themes/" . getConfigByConstant("BLOG_THEME") . "/styles.php");?>
         <?php require_once($_SERVER['DOCUMENT_ROOT'] . "/system/modules/page_parts/header.php");?>
-        <?php if ($previousPageNumber <= 1):?>
-            <div class="page-navigation-button"><a href="/"><?=getConfigByConstant("PREVIOUS_PAGE");?></a></div>
-        <?php else:?>
-            <div class="page-navigation-button"><a href="/page?n=<?=$previousPageNumber;?>"><?=getConfigByConstant("PREVIOUS_PAGE");?></a></div>
-        <?php endif;?>
         <?php if ($hasPinnedPost):?>
             <div class="pinned-background">
                 <?php 
@@ -91,6 +86,11 @@
                 ?>
                 <div class="pinned-text"><?=$pinnedText;?></div>
             </div>
+        <?php endif;?>
+        <?php if ($previousPageNumber <= 1):?>
+            <div class="page-navigation-button"><a href="/"><?=getConfigByConstant("PREVIOUS_PAGE");?></a></div>
+        <?php else:?>
+            <div class="page-navigation-button"><a href="/page?n=<?=$previousPageNumber;?>"><?=getConfigByConstant("PREVIOUS_PAGE");?></a></div>
         <?php endif;?>
         <div class="posts-background">
             <?php if (count($postsList) < 1):?>

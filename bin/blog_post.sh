@@ -3,7 +3,7 @@
 # custom env (please edit)
 U_WEBS="www-data"
 G_WEBS="www-data"
-D_BLOG="/var/www/html"
+D_BLOG="/var/www/blog_scoottec_com"
 
 # system env (don't touch)
 D_POST="$D_BLOG/posts"
@@ -21,7 +21,8 @@ if [ -d "$D_UPLD" ]
 then
   if [ "$(ls -A $D_UPLD)" ]; then
     chown $U_WEBS:$G_WEBS -R $D_UPLD
-    mv -r "$D_UPLD/*" "$D_POST/"
+    rsync -a --recursive "$D_UPLD/"* "$D_POST/"
+    rm -rf "$D_UPLD/"*
   else
     exit
   fi
