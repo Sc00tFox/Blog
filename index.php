@@ -28,7 +28,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <meta name="description" content="<?=BLOG_DESCRIPTION;?>">
+        <meta name="description" content="<?=getConfigByConstant("BLOG_DESCRIPTION");?>">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <?php require_once($_SERVER['DOCUMENT_ROOT'] . "/system/modules/page_parts/head.php");?>
         <?php if (getConfigByConstant("BLOG_USE_HTTPS") == true):?>
