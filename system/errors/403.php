@@ -10,7 +10,7 @@
         <title><?=getConfigByConstant("BLOG_NAME");?> – <?=getConfigByConstant("FORBIDDEN");?></title>
     </head>
     <body>
-        <?php include_once($_SERVER['DOCUMENT_ROOT'] . "/system/themes/" . BLOG_THEME . "/styles.php");?>
+        <?php include_once($_SERVER['DOCUMENT_ROOT'] . "/system/themes/" . getConfigByConstant("BLOG_THEME") . "/styles.php");?>
         <?php require_once($_SERVER['DOCUMENT_ROOT'] . "/system/modules/page_parts/header.php");?>
         <div class="posts-background">
             <div class="post-body">
