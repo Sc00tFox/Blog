@@ -235,6 +235,39 @@
     
             return $post_title;
         }
+
+        /**
+         * Gets the full text of the post in the form of Markdown markup
+         */
+        public function getPinedText($parser, $array) {
+            foreach ($array as $index => $value) {
+                $array[$index] = $this->stringPostProccessing($value);
+            }
+    
+            $table_indexes = array();
+            foreach ($array as $index => $row) {
+                if (strpos($row, '|') !== false) {
+                    array_push($table_indexes, $index);
+                }
+            }
+    
+            if (count($table_indexes) > 1) {
+                $table_indexes = $this->splitArrayByCloseNumbers($table_indexes);
+                foreach ($table_indexes as $group) {
+                    $head_item = $group[0];
+                    unset($group[0]);
+    
+                    foreach ($group as $in_group_index) {
+                        $array[$head_item] .= $array[$in_group_index];
+                        unset($array[$in_group_index]);
+                    }
+                }
+            }
+    
+            $text = implode("\n", $array);
+    
+            return $parser->defaultTransform($text);
+        }
     }
 
     /**
