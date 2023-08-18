@@ -237,9 +237,9 @@
         }
 
         /**
-         * Gets the full text of the post in the form of Markdown markup
+         * Gets the text of the pinned post in the form of Markdown markup
          */
-        public function getPinedText($parser, $array) {
+        public function getPinnedText($parser, $array) {
             foreach ($array as $index => $value) {
                 $array[$index] = $this->stringPostProccessing($value);
             }
