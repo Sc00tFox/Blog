@@ -85,7 +85,7 @@
             <div class="pinned-background">
                 <?php 
                     $pinnedArray = $posts->readPost($pinned);
-                    $pinnedText = $posts->getPostFullText($md, $pinnedArray);
+                    $pinnedText = $posts->getPinedText($md, $pinnedArray);
                     unset($pinnedArray);
                     unset($hasPinnedPost);
                 ?>
