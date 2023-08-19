@@ -2,7 +2,9 @@ User-agent: *
 
 Crawl-delay: 10
 
+Disallow: /bin/
 Disallow: /system/
 Disallow: /config/
+Disallow: /uploads/
 
 Allow: /posts/

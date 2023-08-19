@@ -94,4 +94,7 @@
 
     // The pinned text center align?
     define("DEFAULT_ALIGN_CENTER_PINNED_TEXT", true);
+
+    // Page title
+    define("DEFAULT_PAGE_TITLE", "Page");
 ?>

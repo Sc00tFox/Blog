@@ -13,7 +13,12 @@ Used Libs or Technologies:
     Author: John Gruber https://daringfireball.net All rights reserved.
 
     UI-Components (code-highlighting) MIT License Copyright (c) 2018 
-    Author: Alexander Maltsev https://itchief.ru/
+    Author: Alexander Maltsev https://itchief.ru
+
+    Mobile Detect Library
+    Author: Serban Ghita, Nick Ilyin
+    Original author: Victor Stanciu
+    GitHub: https://github.com/serbanghita/Mobile-Detect
 
     JQuery
     Site: https://jquery.com/
