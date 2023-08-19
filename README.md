@@ -26,7 +26,7 @@ If you want to personalize any new parameters that are not in your configuration
 `define("DEFAULT_NEW_PARAMETER", "New parameter");` -> `define("NEW_PARAMETER", "New parameter");`
 
 # How to Update:
-1. Remove the files: `.htaccess`, `index.php`, `page.php`, `post.php`, `search.php`
+1. Remove the files: `.htaccess`, `index.php`, `page.php`, `post.php`, `search.php`, `version.txt`
 2. Delete the directory `/system/` (If you are using your own themes in the `/system/themes/` directory, you should save them beforehand)
 3. Replace the deleted files and the `/system/` directory with new ones.
 4. Replace `/config/default_config.php` with a new one.
