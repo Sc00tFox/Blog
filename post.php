@@ -15,6 +15,12 @@
     $postUrl = $_SERVER['DOCUMENT_ROOT'] . "/posts/" . $postUrl . ".md";
     $postArray = $posts->readPost($postUrl);
 
+    if ($postArray == NULL) {
+        header("HTTP/1.0 404 Not Found");
+        include($_SERVER['DOCUMENT_ROOT'] . "/system/errors/404.php");
+        die;
+    }
+
     $postLen = count($postArray);
     $postDescription = array_slice($postArray, floor($postLen * (20 / 100)));
 
