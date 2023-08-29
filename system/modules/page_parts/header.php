@@ -14,5 +14,5 @@
         </div>
         <div class="sub-title"><?=getConfigByConstant("BLOG_SUBTITLE");?></div>
     </div>
-    <a class="search-button" href="/search"><?=getConfigByConstant("SEARCH_BUTTON_VALUE");?></a>
+    <a class="search-button" href="/search" draggable="false"><?=getConfigByConstant("SEARCH_BUTTON_VALUE");?></a>
 </div>
