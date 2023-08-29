@@ -26,7 +26,7 @@
         /**
          * Converts a string to markdown
          */
-        private function stringPostProccessing($string) {
+        private function stringPostProccessing($string, $postUrl) {
             include_once($_SERVER['DOCUMENT_ROOT'] . "/system/modules/mobile/mobile_detect.php");
 
             $mobileDetect = new Mobile_Detect;
@@ -34,7 +34,34 @@
             if (preg_match("/~~(.*?)~~/", $string)) {
                 return preg_replace("/~~(.*?)~~/", "<del>$1</del>", $string);
             } elseif (preg_match("/!video\[(.*?)\]\((.*?)\)/", $string)) {
-                return preg_replace("/!video\[(.*?)\]\((.*?)\)/", "<iframe height=\"500\" src=\"$2\" title=\"$1\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\"></iframe>", $string);
+                if (getConfigByConstant("USE_VIDEO_PREVIEW")) {
+                    return preg_replace("/!video\[(.*?)\]\((.*?)\)/", "<img src=\"" . getConfigByConstant("VIDEO_PREVIEW_PATH") . "\" style=\"width: 100%; cursor: pointer;\" onclick=\"location.href='/post?url=" . $postUrl . "'\"/>", $string);
+                } else {
+                    return "<span>". getConfigByConstant("VIDEO_PREVIEW_TEXT") . "</span>";
+                }
+            } elseif (preg_match("/!audio\[(.*?)\]\((.*?)\)/", $string)) {
+                if (getConfigByConstant("USE_AUDIO_PREVIEW")) {
+                    return preg_replace("/!audio\[(.*?)\]\((.*?)\)/", "<img src=\"" . getConfigByConstant("AUDIO_PREVIEW_PATH") . "\" style=\"width: 100%; cursor: pointer;\" onclick=\"location.href='/post?url=" . $postUrl . "'\"/>", $string);
+                } else {
+                    return "<span>". getConfigByConstant("AUDIO_PREVIEW_TEXT") . "</span>";
+                }
+            } else {
+                return $string;
+            }
+        }
+
+        /**
+         * Converts a string to markdown for Full Post Text
+         */
+        private function stringPostProccessingFull($string) {
+            include_once($_SERVER['DOCUMENT_ROOT'] . "/system/modules/mobile/mobile_detect.php");
+
+            $mobileDetect = new Mobile_Detect;
+            
+            if (preg_match("/~~(.*?)~~/", $string)) {
+                return preg_replace("/~~(.*?)~~/", "<del>$1</del>", $string);
+            } elseif (preg_match("/!video\[(.*?)\]\((.*?)\)/", $string)) {
+                return preg_replace("/!video\[(.*?)\]\((.*?)\)/", "<iframe height=\"500\" src=\"$2\" title=\"$1\" autoplay=\"0\" frameborder=\"0\" allow=\"accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\"></iframe>", $string);
             } elseif (preg_match("/!audio\[(.*?)\]\((.*?)\)/", $string)) {
                 if ($mobileDetect->isiOS()) {
                     return preg_replace("/!audio\[(.*?)\]\((.*?)\)/", "<audio controls=\"controls\" style=\"margin-bottom: 2em\" $1><source src=\"$2\"></audio>", $string);
@@ -115,7 +142,7 @@
             unset($array[0]);
 
             foreach ($array as $index => $value) {
-                $array[$index] = $this->stringPostProccessing($value);
+                $array[$index] = $this->stringPostProccessing($value, $postUrl);
             }
 
             $sliceIndex = NULL;
@@ -197,7 +224,7 @@
             unset($array[0]);
 
             foreach ($array as $index => $value) {
-                $array[$index] = $this->stringPostProccessing($value);
+                $array[$index] = $this->stringPostProccessingFull($value);
             }
     
             $table_indexes = array();
@@ -241,7 +268,7 @@
          */
         public function getPinnedText($parser, $array) {
             foreach ($array as $index => $value) {
-                $array[$index] = $this->stringPostProccessing($value);
+                $array[$index] = $this->stringPostProccessingFull($value);
             }
     
             $table_indexes = array();

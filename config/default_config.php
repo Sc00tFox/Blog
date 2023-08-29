@@ -97,4 +97,22 @@
 
     // Page title
     define("DEFAULT_PAGE_TITLE", "Page");
+
+    // Use video preview?
+    define("DEFAULT_USE_VIDEO_PREVIEW", true);
+
+    // Video preview image path
+    define("DEFAULT_VIDEO_PREVIEW_PATH", "/system/themes/default/images/video_preview.png");
+
+    // Video preview text (if 'Use video preview' is false)
+    define("DEFAULT_VIDEO_PREVIEW_TEXT", "* Attachment: video");
+
+    // Use audio preview?
+    define("DEFAULT_USE_AUDIO_PREVIEW", true);
+
+    // Audio preview image path
+    define("DEFAULT_AUDIO_PREVIEW_PATH", "/system/themes/default/images/audio_preview.png");
+
+    // Audio preview text (if 'Use audio preview' is false)
+    define("DEFAULT_AUDIO_PREVIEW_TEXT", "* Attachment: audio");
 ?>
