@@ -104,7 +104,12 @@
          * Reads a post from a file
          */
         public function readPost($filePath) {
-            $file = fopen($filePath, "r");
+            try{
+                $file = fopen($filePath, "r");
+            } catch (Exception $e) {
+                return NULL;
+            }
+            
             $resultArray = array();
     
             if ($file) {
