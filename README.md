@@ -3,7 +3,7 @@ Simple Lightweight No Database Blog Engine with Markdown
 
 # Requirements:
 - Web-Server: Apache
-- Apache Module: mod_rewrite
+- Apache Modules: rewrite, mbstring
 - PHP: 7.4+
 
 # How to Install:
