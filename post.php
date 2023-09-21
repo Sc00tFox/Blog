@@ -24,14 +24,26 @@
     $postLen = count($postArray);
     $postDescription = array_slice($postArray, floor($postLen * (20 / 100)));
 
+    $usePostTitleAsDescription = false;
+    if ($postLen <= 2) {
+        $usePostTitleAsDescription = true;
+    }
+
     unset($postLen);
 ?>
 <!doctype html>
 <html>
     <head>
         <meta charset="UTF-8">
-        <meta name="description" content="<?=htmlspecialchars(stripslashes(strip_tags(trim($posts->getPostFullText($md, $postDescription)))));?>">
-        <?php unset($postDescription);?>
+        <?php if ($usePostTitleAsDescription):?>
+            <meta name="description" content="<?=htmlspecialchars(stripslashes(strip_tags(trim($postArray[0]))));?>">
+        <?php else:?>
+            <meta name="description" content="<?=htmlspecialchars(stripslashes(strip_tags(trim($posts->getPostFullText($md, $postDescription)))));?>">
+        <?php endif;?>
+        <?php 
+            unset($usePostTitleAsDescription);
+            unset($postDescription);
+        ?>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <?php require_once($_SERVER['DOCUMENT_ROOT'] . "/system/modules/page_parts/head.php");?>
         <?php if (getConfigByConstant("BLOG_USE_HTTPS") == true):?>

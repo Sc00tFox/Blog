@@ -51,6 +51,18 @@
         }
 
         /**
+         * Determines whether a string is a URL address on the internet or not.
+         */
+        private function isURL($string) {
+            $pattern = '/^(https?:\/\/)?(www\.)?[a-zA-Z0-9_-]+\.[a-zA-Z]{2,6}[a-zA-Z0-9?=&\/._-]*$/';
+            if (preg_match($pattern, $string)) {
+                return true;
+            } else {
+                return false;
+            }
+        }        
+
+        /**
          * Converts a string to markdown for Full Post Text
          */
         private function stringPostProccessingFull($string) {
@@ -61,7 +73,17 @@
             if (preg_match("/~~(.*?)~~/", $string)) {
                 return preg_replace("/~~(.*?)~~/", "<del>$1</del>", $string);
             } elseif (preg_match("/!video\[(.*?)\]\((.*?)\)/", $string)) {
-                return preg_replace("/!video\[(.*?)\]\((.*?)\)/", "<iframe height=\"500\" src=\"$2\" title=\"$1\" autoplay=\"0\" frameborder=\"0\" allow=\"accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\"></iframe>", $string);
+                // return preg_replace("/!video\[(.*?)\]\((.*?)\)/", "<iframe height=\"500\" src=\"$2\" title=\"$1\" autoplay=\"0\" frameborder=\"0\" allow=\"accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\"></iframe>", $string);
+                $videoTagString = "/\((.*?)\)/";
+                preg_match($videoTagString, $string, $srcMatches);
+                $videoSrcString = $srcMatches[1];
+
+                if ($this->isURL($videoSrcString)) {
+                    return preg_replace("/!video\[(.*?)\]\((.*?)\)/", "<iframe height=\"500\" src=\"$2\" title=\"$1\" autoplay=\"0\" frameborder=\"0\" allow=\"accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\"></iframe>", $string);
+                } else {
+                    return preg_replace("/!video\[(.*?)\]\((.*?)\)/", "<video height=\"500\" controls=\"\" src=\"$2\" title=\"$1\" autoplay=\"0\" frameborder=\"0\" allow=\"accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\"></video>", $string);
+                    // return preg_replace("/!video\[(.*?)\]\((.*?)\)/", "<iframe height=\"500\" src=\"$2\" title=\"$1\" autoplay=\"0\" frameborder=\"0\" allow=\"accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\"></iframe>", $string);
+                }
             } elseif (preg_match("/!audio\[(.*?)\]\((.*?)\)/", $string)) {
                 if ($mobileDetect->isiOS()) {
                     return preg_replace("/!audio\[(.*?)\]\((.*?)\)/", "<audio controls=\"controls\" style=\"margin-bottom: 2em\" $1><source src=\"$2\"></audio>", $string);
@@ -109,7 +131,7 @@
             } catch (Exception $e) {
                 return NULL;
             }
-            
+
             $resultArray = array();
     
             if ($file) {
@@ -151,12 +173,25 @@
             }
 
             $sliceIndex = NULL;
+            $hasOverflow = false;
 
-            foreach ($array as $index => $row) {
-                if (getConfigByConstant("PREVIEW_ROWS_LIMIT") >= 0 && count($array) > getConfigByConstant("PREVIEW_ROWS_LIMIT")) {
-                    if ($index >= getConfigByConstant("PREVIEW_ROWS_LIMIT")) {
-                        $sliceIndex = $index;
-                        break;
+            /** 
+             * If there are more characters in the first line of the post preview than the overflow limit, 
+             * the number of preview lines decreases from the one specified in the config to one, 
+             * and the size of this line is reduced to the value equal to the overflow limit divided by 2. 
+             */
+            if (iconv_strlen($array[1], "UTF-8") > getConfigByConstant("PREVIEW_OVERFLOW_LIMIT") && getConfigByConstant("PREVIEW_OVERFLOW_LIMIT") > 0) {
+                if (getConfigByConstant("PREVIEW_ROWS_LIMIT") > 0 && count($array) >= getConfigByConstant("PREVIEW_ROWS_LIMIT")) {
+                    $hasOverflow = true;
+                    $sliceIndex = 1;
+                }
+            } else {
+                foreach ($array as $index => $row) {
+                    if (getConfigByConstant("PREVIEW_ROWS_LIMIT") > 0 && count($array) > getConfigByConstant("PREVIEW_ROWS_LIMIT")) {
+                        if ($index >= getConfigByConstant("PREVIEW_ROWS_LIMIT")) {
+                            $sliceIndex = $index;
+                            break;
+                        }
                     }
                 }
             }
@@ -176,9 +211,124 @@
                 $array = array_slice($array, 0, $sliceIndex);
             }
 
+            $length = (int) getConfigByConstant("PREVIEW_OVERFLOW_LIMIT") / 2;
+
+            if ($hasOverflow && count($array) == 1) {
+                $array[0] = mb_substr($array[0], 0, $length);
+                $array[0] .= "...";
+            } 
+
+            /** It triggers if the total length of all lines 
+             * in the post preview exceeds the overflow limit. 
+             */
+            if (getConfigByConstant("PREVIEW_ROWS_LIMIT") > 0 && getConfigByConstant("PREVIEW_OVERFLOW_LIMIT") > 0) {
+                if (count($array) == 1) {
+                    $array[0] = mb_substr($array[0], 0, $length);
+                }
+
+                /** 
+                 * If there are more than one posts, then the next post after the first one, 
+                 * whose size will exceed the overflow limit, will become the last post in the feed.
+                 */ 
+                if (count($array) > 1) {
+                    $maxLen = 0;
+                    $maxLenIndex = -1;
+    
+                    foreach ($array as $index => $row) {
+                        if (iconv_strlen($row, "UTF-8") >= getConfigByConstant("PREVIEW_OVERFLOW_LIMIT") && iconv_strlen($row, "UTF-8") > $maxLen) {
+                            $maxLen = iconv_strlen($row, "UTF-8");
+                            $maxLenIndex = $index;
+                        }
+                    }
+    
+                    if ($maxLenIndex != -1) {
+                        $array[$maxLenIndex] = mb_substr($array[$maxLenIndex], 0, $length);
+                        $array[$maxLenIndex] .= "...";
+    
+                        $array = array_slice($array, 0, $maxLenIndex + 1);
+                        $hasOverflow = true;
+                    }
+    
+                    unset($maxLen);
+                    unset($maxLenIndex);
+    
+                    /**
+                     * If the number of lines is two, then the last one will simply be cut in half.
+                     */
+                    if (count($array) == 2) {
+                        $totalLen = 0;
+                        $cropIndex = -1;
+                        $overflowed = false;
+    
+                        foreach ($array as $index => $row) {
+                            $totalLen = $totalLen + iconv_strlen($row, "UTF-8");
+                            $cropIndex = $index;
+    
+                            if ($totalLen >= getConfigByConstant("PREVIEW_OVERFLOW_LIMIT")) {
+                                $overflowed = true;
+                                break;
+                            }
+                        }
+    
+                        /**
+                         *  But if the next line may contain hints of markdown formatting at its beginning, 
+                         * it will be simply deleted rather than shortened.
+                         */ 
+                        if ($overflowed) {
+                            $firstChar = $array[$cropIndex][0];
+                            if ($firstChar == "[" ||
+                                $firstChar == "!" ||
+                                $firstChar == "*" ||
+                                $firstChar == "~" ||
+                                $firstChar == "`") {
+                                    $array = array_slice($array, 0, $cropIndex - 1);
+                                    $hasOverflow = true;
+                                } else {
+                                    $array[$cropIndex] = mb_substr($array[$cropIndex], 0, (int) iconv_strlen($array[$cropIndex], "UTF-8") / 2);
+                                    $array[$cropIndex] .= "...";
+                                    $hasOverflow = true;
+                                }
+                        }
+                        unset($totalLen);
+                        unset($removeIndex);
+                        unset($overflowed);
+                    } else {
+                        /** 
+                         * If the number of rows is greater than two, 
+                         * then the row and all rows following it will be removed 
+                         * if the sum of its length and the lengths of the previous rows 
+                         * is greater than or equal to the overflow limit.
+                         */ 
+                        $totalLen = 0;
+                        $removeIndex = 0;
+                        $overflowed = false;
+    
+                        foreach ($array as $index => $row) {
+                            $totalLen = $totalLen + iconv_strlen($row, "UTF-8");
+    
+                            if ($totalLen >= getConfigByConstant("PREVIEW_OVERFLOW_LIMIT")) {
+                                $overflowed = true;
+                                break;
+                            }
+
+                            $removeIndex += 1;
+                        }
+    
+                        if ($overflowed) {
+                            $array = array_slice($array, 0, $removeIndex);
+                            $hasOverflow = true;
+                        }
+    
+                        unset($totalLen);
+                        unset($removeIndex);
+                        unset($overflowed);
+                    }
+                }
+            }
+
             $codeTagCount = 0;
 
-            // Check Code Blocks
+            /** Check Code Blocks */
             foreach ($array as $row) {
                 if (strpos($row, '```') !== false) {
                     $codeTagCount++;
@@ -216,7 +366,7 @@
     
             array_push($resultArray, $resultBuffer);
 
-            if ($sliceIndex != NULL) {
+            if ($sliceIndex != NULL || $hasOverflow) {
                 array_push($resultArray, "<a href=\"/post?url=$postUrl\" draggable=\"false\">" . getConfigByConstant("POST_PREVIEW_READMORE_TITLE") . "</a>");
             }
             return $resultArray;
