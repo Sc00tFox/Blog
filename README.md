@@ -27,8 +27,8 @@ If you want to personalize any new parameters that are not in your configuration
 
 # How to Update:
 1. Remove the files: `.htaccess`, `index.php`, `page.php`, `post.php`, `search.php`, `version.txt`
-2. Delete the directory `/system/` (If you are using your own themes in the `/system/themes/` directory, you should save them beforehand)
-3. Replace the deleted files and the `/system/` directory with new ones.
+2. Delete the directory `/system/` (If you are using your own themes in the `/system/themes/` directory, you should save them beforehand), delete the directory `/bin/`
+3. Replace the deleted files and the `/system/` and `/bin/` directories with new ones.
 4. Replace `/config/default_config.php` with a new one.
 
 # How to Create New Post and Markdown Tags, etc.
