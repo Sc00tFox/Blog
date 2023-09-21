@@ -59,6 +59,10 @@
     // The maximum number of post lines displayed in the feed
     define("DEFAULT_PREVIEW_ROWS_LIMIT", 3);
 
+    // The maximum allowed number of characters in the preview post string only 
+    // works if the value of DEFAULT_PREVIEW_ROWS_LIMIT (PREVIEW_ROWS_LIMIT) is greater than 0.
+    define("DEFAULT_PREVIEW_OVERFLOW_LIMIT", 400);
+
     // Message about the absence of posts
     define("DEFAULT_POST_NONE", "None");
 
