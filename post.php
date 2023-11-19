@@ -25,7 +25,7 @@
     $postDescription = array_slice($postArray, floor($postLen * (20 / 100)));
 
     $usePostTitleAsDescription = false;
-    if ($postLen <= 2) {
+    if ($postLen <= 1) {
         $usePostTitleAsDescription = true;
     }
 
@@ -38,7 +38,7 @@
         <?php if ($usePostTitleAsDescription):?>
             <meta name="description" content="<?=htmlspecialchars(stripslashes(strip_tags(trim($postArray[0]))));?>">
         <?php else:?>
-            <meta name="description" content="<?=htmlspecialchars(stripslashes(strip_tags(trim($posts->getPostFullText($md, $postDescription)))));?>">
+            <meta name="description" content="<?=htmlspecialchars(stripslashes(strip_tags(trim($postArray[0] . $posts->getPostFullText($md, $postDescription)))));?>">
         <?php endif;?>
         <?php 
             unset($usePostTitleAsDescription);
