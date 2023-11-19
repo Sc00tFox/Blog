@@ -211,6 +211,10 @@
         min-width: 100%;
     }
 
+    video {
+        width: 100%;
+    }
+
     audio {
         width: 100%;
     }
