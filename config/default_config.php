@@ -111,6 +111,11 @@
     // Video preview text (if 'Use video preview' is false)
     define("DEFAULT_VIDEO_PREVIEW_TEXT", "* Attachment: video");
 
+    // Used only for local video files!
+    // Use target video preview image? If enabled, jpg/jpeg/png files with the same name as the video file will be used as video preview in feed. 
+    // If preview image file not found will be used previous preview settings.
+    define("DEFAULT_USE_TARGET_VIDEO_PREVIEW", false);
+
     // Use audio preview?
     define("DEFAULT_USE_AUDIO_PREVIEW", true);
 
