@@ -39,6 +39,13 @@
         <div class="search-panel">
             <div id="search-item"></div>
         </div>
+        <?php if ($searchQuery == NULL):?>
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    document.getElementById('search-field').focus();
+                });
+            </script>
+        <?php endif;?>
         <script type="text/javascript">
             const searchFieldElement = document.getElementById('search-field');
             
