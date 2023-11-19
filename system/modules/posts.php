@@ -24,6 +24,42 @@
         }
 
         /**
+         * Determines whether a string is a URL address on the internet or not.
+         */
+        private function isURL($string) {
+            $pattern = '/^(https?:\/\/)?(www\.)?[a-zA-Z0-9_-]+\.[a-zA-Z]{2,6}[a-zA-Z0-9?=&\/._-]*$/';
+            if (preg_match($pattern, $string)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        /**
+         * Get Video Target Preview image
+         */
+
+        private function getTargetVideoPreview($path) {
+            $filename = basename($path);
+            $extension = pathinfo($filename, PATHINFO_EXTENSION);
+            $filenameWithoutExtension = str_replace("." . $extension, "", $filename);
+            $pathWithoutExtension = dirname($path) . "/" . $filenameWithoutExtension;
+
+            return $pathWithoutExtension;
+        }
+
+        /**
+         * Static video preview generation
+         */
+        private function staticVideoPreviewGen($string, $postUrl) {
+            if (getConfigByConstant("USE_VIDEO_PREVIEW")) {
+                return preg_replace("/!video\[(.*?)\]\((.*?)\)/", "<img src=\"" . getConfigByConstant("VIDEO_PREVIEW_PATH") . "\" style=\"width: 100%; cursor: pointer;\" onclick=\"location.href='/post?url=" . $postUrl . "'\"/>", $string);
+            } else {
+                return "<span>". getConfigByConstant("VIDEO_PREVIEW_TEXT") . "</span>";
+            }
+        }
+
+        /**
          * Converts a string to markdown
          */
         private function stringPostProccessing($string, $postUrl) {
@@ -34,10 +70,40 @@
             if (preg_match("/~~(.*?)~~/", $string)) {
                 return preg_replace("/~~(.*?)~~/", "<del>$1</del>", $string);
             } elseif (preg_match("/!video\[(.*?)\]\((.*?)\)/", $string)) {
-                if (getConfigByConstant("USE_VIDEO_PREVIEW")) {
-                    return preg_replace("/!video\[(.*?)\]\((.*?)\)/", "<img src=\"" . getConfigByConstant("VIDEO_PREVIEW_PATH") . "\" style=\"width: 100%; cursor: pointer;\" onclick=\"location.href='/post?url=" . $postUrl . "'\"/>", $string);
+                if (getConfigByConstant("USE_TARGET_VIDEO_PREVIEW")) {
+                    $videoTagString = "/\((.*?)\)/";
+                    preg_match($videoTagString, $string, $srcMatches);
+                    $videoSrcString = $srcMatches[1];
+
+                    if ($this->isURL($videoSrcString)) {
+                        return $this->staticVideoPreviewGen($string, $postUrl);
+                    } else {
+                        $targetPreview = $this->getTargetVideoPreview($videoSrcString);
+
+                        if ($targetPreview == NULL) {
+                            return $this->staticVideoPreviewGen($string, $postUrl);
+                        }
+                       
+                        $UsedExtension = NULL;
+
+                        if (file_exists($_SERVER['DOCUMENT_ROOT'] . $targetPreview . ".jpg")) {
+                            $UsedExtension = ".jpg";
+                        } elseif (file_exists($_SERVER['DOCUMENT_ROOT'] . $targetPreview . ".jpeg")) {
+                            $UsedExtension = ".jpeg";
+                        } elseif (file_exists($_SERVER['DOCUMENT_ROOT'] . $targetPreview . ".png")) {
+                            $UsedExtension = ".png";
+                        }
+
+                        // return print_r($targetPreview . $UsedExtension);
+
+                        if ($UsedExtension == NULL) {
+                            return $this->staticVideoPreviewGen($string, $postUrl);
+                        } else {
+                            return preg_replace("/!video\[(.*?)\]\((.*?)\)/", "<div class=\"videopreview-container\">" . "<img class=\"videopreview-background\" src=\"" . $targetPreview . $UsedExtension . "\" onclick=\"location.href='/post?url=" . $postUrl . "'\"/>" . "<img class=\"videopreview-play\" src=\"/system/themes/default/images/play-button.png\" onclick=\"location.href='/post?url=" . $postUrl . "'\"/>". "</div>", $string);
+                        }
+                    }
                 } else {
-                    return "<span>". getConfigByConstant("VIDEO_PREVIEW_TEXT") . "</span>";
+                    return $this->staticVideoPreviewGen($string, $postUrl);
                 }
             } elseif (preg_match("/!audio\[(.*?)\]\((.*?)\)/", $string)) {
                 if (getConfigByConstant("USE_AUDIO_PREVIEW")) {
@@ -48,19 +114,7 @@
             } else {
                 return $string;
             }
-        }
-
-        /**
-         * Determines whether a string is a URL address on the internet or not.
-         */
-        private function isURL($string) {
-            $pattern = '/^(https?:\/\/)?(www\.)?[a-zA-Z0-9_-]+\.[a-zA-Z]{2,6}[a-zA-Z0-9?=&\/._-]*$/';
-            if (preg_match($pattern, $string)) {
-                return true;
-            } else {
-                return false;
-            }
-        }        
+        }       
 
         /**
          * Converts a string to markdown for Full Post Text
@@ -73,7 +127,6 @@
             if (preg_match("/~~(.*?)~~/", $string)) {
                 return preg_replace("/~~(.*?)~~/", "<del>$1</del>", $string);
             } elseif (preg_match("/!video\[(.*?)\]\((.*?)\)/", $string)) {
-                // return preg_replace("/!video\[(.*?)\]\((.*?)\)/", "<iframe height=\"500\" src=\"$2\" title=\"$1\" autoplay=\"0\" frameborder=\"0\" allow=\"accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\"></iframe>", $string);
                 $videoTagString = "/\((.*?)\)/";
                 preg_match($videoTagString, $string, $srcMatches);
                 $videoSrcString = $srcMatches[1];
@@ -82,7 +135,6 @@
                     return preg_replace("/!video\[(.*?)\]\((.*?)\)/", "<iframe height=\"500\" src=\"$2\" title=\"$1\" autoplay=\"0\" frameborder=\"0\" allow=\"accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\"></iframe>", $string);
                 } else {
                     return preg_replace("/!video\[(.*?)\]\((.*?)\)/", "<video height=\"500\" controls=\"\" src=\"$2\" title=\"$1\" autoplay=\"0\" frameborder=\"0\" allow=\"accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\"></video>", $string);
-                    // return preg_replace("/!video\[(.*?)\]\((.*?)\)/", "<iframe height=\"500\" src=\"$2\" title=\"$1\" autoplay=\"0\" frameborder=\"0\" allow=\"accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\"></iframe>", $string);
                 }
             } elseif (preg_match("/!audio\[(.*?)\]\((.*?)\)/", $string)) {
                 if ($mobileDetect->isiOS()) {
@@ -280,7 +332,8 @@
                                 $firstChar == "!" ||
                                 $firstChar == "*" ||
                                 $firstChar == "~" ||
-                                $firstChar == "`") {
+                                $firstChar == "`" ||
+                                $firstChar == "<") {
                                     $array = array_slice($array, 0, $cropIndex - 1);
                                     $hasOverflow = true;
                                 } else {
