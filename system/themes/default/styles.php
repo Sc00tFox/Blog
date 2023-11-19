@@ -523,4 +523,31 @@
 
         margin-top: 25px;
     }
+
+    .videopreview-container {
+        position: relative;
+    }
+
+    img.videopreview-background {
+        position: relative; 
+        z-index: 1; 
+        width: 100%; 
+        cursor: pointer;
+    }
+
+    img.videopreview-play {
+        position: absolute; 
+        top: 50%; 
+        left: 50%; 
+        transform: translate(-50%, -50%); 
+        z-index: 2;
+        cursor: pointer;
+        width: 128px;
+        height: 128px;
+        opacity: .7;
+    }
+
+    img.videopreview-play:hover {
+        opacity: .3;
+    }
 </style>
