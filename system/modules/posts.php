@@ -461,6 +461,13 @@
         }
 
         /**
+         * Gets the post description in the form of Markdown markup
+         */
+        public function getPostDesc($parser, $string) {
+            return $parser->defaultTransform($this->stringPostProccessingFull($string));
+        }
+
+        /**
          * Gets the title of the post from the first line of the file
          */
         public function getPostTitle($array) {
