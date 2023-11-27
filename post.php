@@ -21,14 +21,26 @@
         die;
     }
 
-    $postLen = count($postArray);
-    $postDescription = array_slice($postArray, floor($postLen * (20 / 100)));
-
     $usePostTitleAsDescription = false;
-    if ($postLen <= 1) {
+    $postLen = count($postArray);
+
+    if ($postLen >= 2) {
+        $charLimit = 150;
+        $firstLineLen = strlen($postArray[1]);
+        $postDescription = NULL;
+
+        if ($firstLineLen >= $charLimit) {
+            $postDescription = substr($postArray[1], 0,  $firstLineLen / 2);
+        } else {
+            $postDescription = $postArray[0] . " " . mb_strtolower($postArray[1]);
+        }
+        unset($charLimit);
+        unset($firstLineLen);
+    } else if ($postLen <= 1) {
+        $usePostTitleAsDescription = true;
+    } else {
         $usePostTitleAsDescription = true;
     }
-
     unset($postLen);
 ?>
 <!doctype html>
