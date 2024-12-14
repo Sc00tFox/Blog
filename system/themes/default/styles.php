@@ -479,6 +479,12 @@
         border-bottom: 1px ridge #282828ed;
         padding: 5px;
         overflow: auto;
+        outline: none;
+    }
+
+    .area-field:focus {
+        border: 1px solid #ffea2b;
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
     }
 
     button.search-button {
