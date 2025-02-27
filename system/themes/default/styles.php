@@ -220,7 +220,8 @@
     }
 
     .post-image {
-        width: 100%;
+        width: <?php echo getConfigByConstant("BLOG_POST_IMAGE_WIDTH");?>;
+        height: <?php echo getConfigByConstant("BLOG_POST_IMAGE_HEIGHT");?>;
         align-content: center;
     }
 
