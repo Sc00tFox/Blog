@@ -60,6 +60,32 @@
         }
 
         /**
+         * Return last url block
+         */
+        function getLastUrlBlock($url) {
+            $lastSlashPosition = strrpos($url, '/');
+        
+            if ($lastSlashPosition === false) {
+                return NULL;
+            }
+        
+            return substr($url, $lastSlashPosition + 1);
+        }
+
+        /**
+         * Return post url without post id
+         */
+        function getPostPath($url) {
+            $lastSlashPosition = strrpos($url, '/');
+
+            if ($lastSlashPosition === false) {
+                return NULL;
+            }
+
+            return substr($url, 0, $lastSlashPosition);
+        }
+
+        /**
          * Converts a string to markdown
          */
         private function stringPostProccessing($string, $postUrl) {
@@ -76,7 +102,33 @@
                     $videoSrcString = $srcMatches[1];
 
                     if ($this->isURL($videoSrcString)) {
-                        return $this->staticVideoPreviewGen($string, $postUrl);
+                        $videoTag = $this->getLastUrlBlock($videoSrcString);
+                        $postPath = $this->getPostPath($postUrl);
+
+                        if ($videoTag === NULL) {
+                            return $this->staticVideoPreviewGen($string, $postUrl);
+                        }
+
+                        if ($postPath === NULL) {
+                            return $this->staticVideoPreviewGen($string, $postUrl);
+                        }
+
+                        $predicatePreviewPath = $_SERVER['DOCUMENT_ROOT'] . "/posts/" . $postPath . "/" . $videoTag;
+                        $UsedExtension = NULL;
+
+                        if (file_exists($predicatePreviewPath . ".jpg")) {
+                            $UsedExtension = ".jpg";
+                        } elseif (file_exists($predicatePreviewPath. ".jpeg")) {
+                            $UsedExtension = ".jpeg";
+                        } elseif (file_exists($predicatePreviewPath . ".png")) {
+                            $UsedExtension = ".png";
+                        }
+
+                        if ($UsedExtension == NULL) {
+                            return $this->staticVideoPreviewGen($string, $postUrl);
+                        } else {
+                            return preg_replace("/!video\[(.*?)\]\((.*?)\)/", "<div class=\"videopreview-container\">" . "<img class=\"videopreview-background\" src=\"/posts/" . $postPath . "/" . $videoTag . $UsedExtension . "\" onclick=\"location.href='/post?url=" . $postUrl . "'\"/>" . "<img class=\"videopreview-play\" src=\"/system/themes/default/images/play-button.png\" onclick=\"location.href='/post?url=" . $postUrl . "'\"/>". "</div>", $string);
+                        }
                     } else {
                         $targetPreview = $this->getTargetVideoPreview($videoSrcString);
 
@@ -93,8 +145,6 @@
                         } elseif (file_exists($_SERVER['DOCUMENT_ROOT'] . $targetPreview . ".png")) {
                             $UsedExtension = ".png";
                         }
-
-                        // return print_r($targetPreview . $UsedExtension);
 
                         if ($UsedExtension == NULL) {
                             return $this->staticVideoPreviewGen($string, $postUrl);
@@ -134,7 +184,26 @@
                 if ($this->isURL($videoSrcString)) {
                     return preg_replace("/!video\[(.*?)\]\((.*?)\)/", "<iframe height=\"500\" src=\"$2\" title=\"$1\" autoplay=\"0\" frameborder=\"0\" allow=\"accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\"></iframe>", $string);
                 } else {
-                    return preg_replace("/!video\[(.*?)\]\((.*?)\)/", "<video height=\"500\" controls=\"\" src=\"$2\" title=\"$1\" autoplay=\"0\" frameborder=\"0\" allow=\"accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\"></video>", $string);
+                    $previewPath = preg_replace("/!video\[(.*?)\]\((.*?)\)/", "$2", $string);
+                    $periodPosition = strpos($previewPath, '.');
+
+                    if ($periodPosition !== false) {
+                        $trimmedPreview = substr($previewPath, 0, $periodPosition);
+                    }
+
+                    $preview = NULL;
+
+                    if ($trimmedPreview !== NULL) {
+                        if (file_exists($_SERVER['DOCUMENT_ROOT'] . $trimmedPreview . ".jpg")) {
+                            $preview = $trimmedPreview . ".jpg";
+                        } elseif (file_exists($_SERVER['DOCUMENT_ROOT'] . $trimmedPreview . ".jpeg")) {
+                            $preview = $trimmedPreview . ".jpeg";
+                        } elseif (file_exists($_SERVER['DOCUMENT_ROOT'] . $trimmedPreview . ".png")) {
+                            $preview = $trimmedPreview . ".png";
+                        }
+                    }
+
+                    return preg_replace("/!video\[(.*?)\]\((.*?)\)/", "<video height=\"500\" poster=".$preview." controls=\"\" src=\"$2\" title=\"$1\" autoplay=\"0\" frameborder=\"0\" allow=\"accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\"></video>", $string);
                 }
             } elseif (preg_match("/!audio\[(.*?)\]\((.*?)\)/", $string)) {
                 if ($mobileDetect->isiOS()) {
