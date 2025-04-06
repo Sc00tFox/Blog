@@ -26,6 +26,12 @@
     // Custom favicon path (Example: /system/assets/favicon.png)
     define("DEFAULT_BLOG_CUSTUM_FAVICON_PATH", "");
 
+    // Enable background fill on logo image
+    define("DEFAULT_BLOG_LOGO_BACKGROUND", true);
+
+    // Logo background fill color
+    define("DEFAULT_BLOG_LOGO_BACKGROUND_COLOR", "#ffffff");
+
     // Theme catalog name
     define("DEFAULT_BLOG_THEME", "default");
 
