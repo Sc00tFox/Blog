@@ -257,7 +257,9 @@
         width: 64px;
         height: 64px;
 
-        background-color: #FFFFFF;
+        <?php if (getConfigByConstant("BLOG_LOGO_BACKGROUND") == true):?>
+            background-color: <?php echo getConfigByConstant("BLOG_LOGO_BACKGROUND_COLOR");?>;
+        <?php endif;?>
 
         border-radius: 100%;
         text-shadow: 0px 0px 35px #FFFFFF;

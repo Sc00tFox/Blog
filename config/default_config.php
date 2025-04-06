@@ -26,6 +26,12 @@
     // Custom favicon path (Example: /system/assets/favicon.png)
     define("DEFAULT_BLOG_CUSTUM_FAVICON_PATH", "");
 
+    // Enable background fill on logo image
+    define("DEFAULT_BLOG_LOGO_BACKGROUND", true);
+
+    // Logo background fill color
+    define("DEFAULT_BLOG_LOGO_BACKGROUND_COLOR", "#ffffff");
+
     // Theme catalog name
     define("DEFAULT_BLOG_THEME", "default");
 
@@ -35,10 +41,10 @@
     // Blog subtitle font size
     define("DEFAULT_BLOG_SUBTITLE_FONT_SIZE", "24px");
 
-    // Image width in the post
+    // Maximum image width in the post
     define("DEFAULT_BLOG_POST_IMAGE_WIDTH", "100%");
 
-    // Image height in the post
+    // Maximum image height in the post
     define("DEFAULT_BLOG_POST_IMAGE_HEIGHT", "100%");
 
     // Post blog width
