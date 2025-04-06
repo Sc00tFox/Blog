@@ -41,10 +41,10 @@
     // Blog subtitle font size
     define("DEFAULT_BLOG_SUBTITLE_FONT_SIZE", "24px");
 
-    // Maximum image width in the post
+    // Image width in the post
     define("DEFAULT_BLOG_POST_IMAGE_WIDTH", "100%");
 
-    // Maximum image height in the post
+    // Image height in the post
     define("DEFAULT_BLOG_POST_IMAGE_HEIGHT", "100%");
 
     // Post blog width
